@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color3"
+    tools:context=".HomeAdminActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="367dp"
+        android:layout_height="262dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="@+id/homeAdminTitulo"
+        app:layout_constraintStart_toStartOf="@+id/homeAdminTitulo"
+        app:layout_constraintTop_toTopOf="@+id/homeAdminTitulo"
+        app:srcCompat="@mipmap/image3" />
+
+    <TextView
+        android:id="@+id/homeAdminTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="HOME ADMINISTRADOR"
+        android:textColor="@color/color4"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAgregarProducto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="285dp"
+        android:backgroundTint="@color/color4"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="AGREGAR PRODUCTO"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <Button
+        android:id="@+id/btnVerProductos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/color4"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="VER PRODUCTOS"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="@+id/btnAgregarProducto"
+        app:layout_constraintStart_toStartOf="@+id/btnAgregarProducto"
+        app:layout_constraintTop_toTopOf="@+id/btnAgregarProducto" />
+</androidx.constraintlayout.widget.ConstraintLayout>

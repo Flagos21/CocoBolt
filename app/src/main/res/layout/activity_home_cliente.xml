@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color3"
+    tools:context=".HomeClienteActivity">
+
+    <Button
+        android:id="@+id/btnMapaLocal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="325dp"
+        android:backgroundTint="@color/color6"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="VER UBICACION DEL LOCAL"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textColorLink="@color/color3"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="400dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/homeClienteTitulo"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/homeClienteTitulo"
+        app:layout_constraintTop_toTopOf="@+id/homeClienteTitulo"
+        app:srcCompat="@mipmap/image1" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="311dp"
+        android:layout_height="296dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/btnMapaLocal"
+        app:layout_constraintStart_toStartOf="@+id/btnMapaLocal"
+        app:layout_constraintTop_toTopOf="@+id/btnMapaLocal"
+        app:srcCompat="@mipmap/image2" />
+
+    <Button
+        android:id="@+id/btnCarta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:backgroundTint="@color/color6"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="VER PRODUCTOS"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/btnMapaLocal" />
+
+    <TextView
+        android:id="@+id/homeClienteTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="serif"
+        android:lineSpacingExtra="8sp"
+        android:text="HOME CLIENTE"
+        android:textAlignment="center"
+        android:textColor="@color/color5"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

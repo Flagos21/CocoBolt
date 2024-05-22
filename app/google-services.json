@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369288554243",
+    "project_id": "cocobolt-98280",
+    "storage_bucket": "cocobolt-98280.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369288554243:android:2ffdd9c2ca09cd179e6b36",
+        "android_client_info": {
+          "package_name": "com.cocobolt.cocobolt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8GgS9mVaUr1L4nJGCROreAbE2MaG_JEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
