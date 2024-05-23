@@ -33,28 +33,38 @@ public class CartaClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carta_cliente);
 
+        // Inicialización de Firebase Firestore y Firebase Database
         mFirestore = FirebaseFirestore.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Configuración del RecyclerView
         cRecycler = findViewById(R.id.recyclerViewSingle);
         cRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        // Consulta a Firestore para obtener la lista de productos
         Query query = mFirestore.collection("productos");
         FirestoreRecyclerOptions<Productos> firebaseRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Productos>()
                         .setQuery(query, Productos.class)
                         .build();
 
+        // Inicialización y configuración del adaptador para el RecyclerView
         cAdapter = new CartaAdapter(firebaseRecyclerOptions, this);
         cRecycler.setAdapter(cAdapter);
 
+        // Botón para agregar el pedido
         btnAgregar = findViewById(R.id.btnPedido);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Navegación a la actividad de Reparto
                 Intent intent = new Intent(CartaClienteActivity.this, RepartoActivity.class);
                 startActivity(intent);
+
+                // Obtener los productos seleccionados
                 List<Productos> selectedProducts = getSelectedProducts();
+
+                // Verificar si se han seleccionado productos antes de enviar el pedido
                 if (!selectedProducts.isEmpty()) {
                     enviarPedidoAFirebase(selectedProducts);
                 } else {
@@ -67,15 +77,18 @@ public class CartaClienteActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // Comienza a escuchar los cambios en el adaptador cuando la actividad está en primer plano
         cAdapter.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        // Detiene la escucha de cambios en el adaptador cuando la actividad está en segundo plano
         cAdapter.stopListening();
     }
 
+    // Método para obtener los productos seleccionados en el RecyclerView
     private List<Productos> getSelectedProducts() {
         List<Productos> selectedProducts = new ArrayList<>();
         for (int i = 0; i < cAdapter.getItemCount(); i++) {
@@ -86,10 +99,12 @@ public class CartaClienteActivity extends AppCompatActivity {
         return selectedProducts;
     }
 
+    // Método para enviar el pedido a Firebase Database
     private void enviarPedidoAFirebase(List<Productos> selectedProducts) {
         String pedidoId = mDatabase.child("pedidos").push().getKey();
         Map<String, Object> pedidoMap = new HashMap<>();
 
+        // Iterar sobre los productos seleccionados y agregarlos al mapa del pedido
         for (Productos producto : selectedProducts) {
             String productoId = mDatabase.child("pedidos").child(pedidoId).push().getKey();
             Map<String, Object> productoMap = new HashMap<>();
@@ -98,6 +113,7 @@ public class CartaClienteActivity extends AppCompatActivity {
             pedidoMap.put(productoId, productoMap);
         }
 
+        // Guardar el pedido en Firebase Database
         mDatabase.child("pedidos").child(pedidoId).setValue(pedidoMap)
                 .addOnSuccessListener(aVoid -> Toast.makeText(CartaClienteActivity.this, "Pedido agregado exitosamente", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(CartaClienteActivity.this, "Error al agregar pedido", Toast.LENGTH_SHORT).show());

@@ -34,6 +34,7 @@ import java.util.Map;
 
 public class AgregarProductoActivity extends AppCompatActivity {
 
+    // Declaración de variables
     ImageView imgAgregar;
     Button btnAgregarP, btnAgregarI ;
     EditText nombre, precio, descripcion;
@@ -54,17 +55,19 @@ public class AgregarProductoActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_agregar_producto);
 
-
+        // Inicialización de FireStore
         String id = getIntent().getStringExtra("id_producto");
         mfirestore = FirebaseFirestore.getInstance();
 
+        // Referencias a las vistas
         nombre = findViewById(R.id.inputNombreP);
         precio = findViewById(R.id.inputPrecioP);
         descripcion = findViewById(R.id.inputDescripcionP);
-
         btnAgregarP = findViewById(R.id.btnAgregarP);
 
+        // Botón para agregar producto nuevo o actualizar uno existente
         if (id == null || id == ""){
+            // Crear un nuevo producto
             btnAgregarP.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,14 +77,13 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
                     if (name.isEmpty() && price.isEmpty() && description.isEmpty()){
                         Toast.makeText(getApplicationContext(), "Ingrese los datos", Toast.LENGTH_SHORT).show();
-
                     }else{
                         postProducto(name, price, description);
-
                     }
                 }
             });
         }else{
+            // Actualizar un producto existente
             btnAgregarP.setText("ACTUALIZAR");
             getProducto(id);
             btnAgregarP.setOnClickListener(new View.OnClickListener() {
@@ -93,15 +95,14 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
                     if (name.isEmpty() && price.isEmpty() && description.isEmpty()){
                         Toast.makeText(getApplicationContext(), "Ingrese los datos", Toast.LENGTH_SHORT).show();
-
                     }else{
                         updateProducto(name, price, description, id);
                     }
-
                 }
             });
         }
 
+        // Listener para ajustar el padding según el sistema de barras
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -109,13 +110,14 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
+    // Método para actualizar un producto existente
     private void updateProducto(String nombre, String price, String description, String id) {
         Map<String,Object> map = new HashMap<>();
         map.put("nombre", nombre);
         map.put("precio", price);
         map.put("descripcion", description);
 
-        mfirestore. collection("productos").document(id).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mfirestore.collection("productos").document(id).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(getApplicationContext(), "Actualizado exitosa", Toast.LENGTH_SHORT).show();
@@ -129,6 +131,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
+    // Método para agregar un nuevo producto
     private void postProducto(String nombre, String price, String description) {
         Map<String,Object> map = new HashMap<>();
         map.put("nombre", nombre);
@@ -149,6 +152,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         });
     }
 
+    // Método para obtener los datos de un producto existente
     private void getProducto(String id){
         mfirestore.collection("productos").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -163,7 +167,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show();
             }
         });
     }

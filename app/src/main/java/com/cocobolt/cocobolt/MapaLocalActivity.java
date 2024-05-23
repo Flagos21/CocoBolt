@@ -21,29 +21,30 @@ public class MapaLocalActivity extends FragmentActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Inflar el diseño de la actividad utilizando ViewBinding
         binding = ActivityMapaLocalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtener el SupportMapFragment y ser notificado cuando el mapa esté listo para ser utilizado
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * Manipula el mapa una vez que esté disponible.
+     * Este callback se activa cuando el mapa está listo para ser utilizado.
+     * Aquí es donde podemos agregar marcadores o líneas, agregar escuchas o mover la cámara.
+     * En este caso, simplemente agregamos un marcador cerca de Sydney, Australia.
+     * Si los servicios de Google Play no están instalados en el dispositivo, se pedirá al usuario
+     * que los instale dentro del SupportMapFragment. Este método solo se activará una vez que el
+     * usuario haya instalado los servicios de Google Play y haya regresado a la aplicación.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Agregar un marcador en Sydney y mover la cámara
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));

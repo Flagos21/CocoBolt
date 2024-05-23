@@ -32,48 +32,71 @@ public class RepartoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Habilitar el modo EdgeToEdge
         EdgeToEdge.enable(this);
+
+        // Establecer el diseño de la actividad
         setContentView(R.layout.activity_reparto);
-        tvLatitud =(TextView) findViewById(R.id.tvLatitud);
-        tvLongitud=(TextView) findViewById(R.id.tvLongitud);
-        tvDireccion=(TextView) findViewById(R.id.tvDireccion);
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,},1000);
+        // Obtener referencias a los elementos de la interfaz de usuario
+        tvLatitud = findViewById(R.id.tvLatitud);
+        tvLongitud = findViewById(R.id.tvLongitud);
+        tvDireccion = findViewById(R.id.tvDireccion);
 
-        }else {
+        // Verificar si se tienen los permisos necesarios para acceder a la ubicación
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            // Si no se tienen permisos, solicitarlos al usuario
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1000);
+        } else {
+            // Si se tienen permisos, iniciar la obtención de la ubicación
             locationStart();
         }
     }
 
+    // Método para iniciar la obtención de la ubicación del dispositivo
     private void locationStart() {
-        LocationManager mlocManager =(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Obtener el servicio de ubicación
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Crear una instancia de Localizacion (clase interna)
         Localizacion Local = new Localizacion();
+        // Establecer la actividad actual como la actividad de reparto
         Local.setRepartoActivity(this);
 
+        // Verificar si el GPS está habilitado
         final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if(!gpsEnabled){
+            // Si el GPS no está habilitado, abrir la configuración para habilitarlo
             Intent intentgps = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intentgps);
         }
+
+        // Verificar si se tienen los permisos necesarios para acceder a la ubicación
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            // Si no se tienen permisos, solicitarlos al usuario
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1000);
             return;
         }
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,(LocationListener) Local);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,(LocationListener) Local);
+
+        // Solicitar actualizaciones de ubicación desde el proveedor de red y GPS
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, Local);
+
+        // Mostrar un mensaje en los campos de texto para indicar que se está obteniendo la ubicación
         tvLatitud.setText("Localización GPS");
         tvDireccion.setText("");
     }
-    public void setLocation(Location loc) {
 
+    // Método para establecer la dirección en función de la ubicación obtenida
+    public void setLocation(Location loc) {
         if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
             try {
+                // Utilizar Geocoder para obtener la dirección a partir de las coordenadas de ubicación
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(
-                        loc.getLatitude(), loc.getLongitude(), 1);
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
                 if (!list.isEmpty()) {
+                    // Obtener la primera dirección de la lista y mostrarla en el campo de dirección
                     Address DirCalle = list.get(0);
                     tvDireccion.setText(DirCalle.getAddressLine(0));
                 }
@@ -82,39 +105,47 @@ public class RepartoActivity extends AppCompatActivity {
             }
         }
     }
-    public class Localizacion implements LocationListener{
 
+    // Clase interna para manejar las actualizaciones de ubicación
+    public class Localizacion implements LocationListener{
         RepartoActivity repartoActivity;
 
+        // Método para obtener la actividad de reparto
         public RepartoActivity getRepartoActivity(){
             return repartoActivity;
         }
+
+        // Método para establecer la actividad de reparto
         public void setRepartoActivity(RepartoActivity repartoActivity) {
             this.repartoActivity = repartoActivity;
         }
+
         @Override
         public void onLocationChanged(Location loc) {
+            // Actualizar la latitud y longitud en los campos de texto
             loc.getLatitude();
             loc.getLongitude();
             tvLatitud.setText(String.valueOf(loc.getLatitude()));
             tvLongitud.setText(String.valueOf(loc.getLongitude()));
+            // Llamar al método setLocation de la actividad de reparto para establecer la dirección
             this.repartoActivity.setLocation(loc);
         }
+
         @Override
         public void onProviderDisabled(String provider){
-
+            // Mostrar un mensaje cuando el proveedor de ubicación está desactivado
             tvLatitud.setText("GPS Desactivado");
-
         }
 
         @Override
         public void onProviderEnabled(String provider){
-
+            // Mostrar un mensaje cuando el proveedor de ubicación está activado
             tvLatitud.setText("GPS Activado");
-
         }
+
         @Override
-        public void onStatusChanged(String provider, int status,Bundle extras){
+        public void onStatusChanged(String provider, int status, Bundle extras){
+            // Manejar los cambios en el estado del proveedor de ubicación
             switch (status) {
                 case LocationProvider.AVAILABLE:
                     Log.d("debug", "LocationProvider.AVAILABLE");
