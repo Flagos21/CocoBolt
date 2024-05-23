@@ -31,6 +31,13 @@ public class HomeAdminActivity extends AppCompatActivity {
             }
         });
 
+        btnVer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeAdminActivity.this, VerProductosActivity.class));
+            }
+        });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

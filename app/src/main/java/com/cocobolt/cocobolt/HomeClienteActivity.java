@@ -48,9 +48,8 @@ public class HomeClienteActivity extends AppCompatActivity {
         btnCarta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear un Intent para iniciar HomeAdminActivity
                 Intent intent = new Intent(HomeClienteActivity.this, CartaClienteActivity.class);
-                startActivity(intent); // Iniciar la actividad HomeAdminActivity
+                startActivity(intent);
             }
         });
         mBtnMap.setOnClickListener(new View.OnClickListener() {
